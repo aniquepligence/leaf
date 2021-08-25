@@ -97,6 +97,7 @@ pub extern "C" fn leaf_run(rt_id: u16, config_path: *const c_char) -> i32 {
             auto_reload: false,
             runtime_opt: leaf::RuntimeOption::SingleThread,
         };
+        log::debug!("abc");
         if let Err(e) = leaf::start(rt_id, opts) {
             return to_errno(e);
         }
