@@ -36,6 +36,7 @@ pub struct DnsClient {
 
 impl DnsClient {
     fn load_servers(dns: &crate::config::Dns) -> Result<Vec<SocketAddr>> {
+        log::info!("CyberMine: load_Servers");
         let mut servers = Vec::new();
         for server in dns.servers.iter() {
             servers.push(SocketAddr::new(server.parse::<IpAddr>()?, 53));
@@ -47,6 +48,7 @@ impl DnsClient {
     }
 
     fn load_hosts(dns: &crate::config::Dns) -> HashMap<String, Vec<IpAddr>> {
+        log::info!("CyberMine: Load_hosts");
         let mut hosts = HashMap::new();
         for (name, ips) in dns.hosts.iter() {
             hosts.insert(name.to_owned(), ips.values.to_vec());
@@ -170,6 +172,7 @@ impl DnsClient {
     ) -> Result<CacheEntry> {
         let socket = self.new_udp_socket(server).await?;
         let mut last_err = None;
+        log::info!("CyberMine: query task for socket");
         for _i in 0..*option::MAX_DNS_RETRIES {
             debug!("looking up host {} on {}", host, server);
             let start = tokio::time::Instant::now();

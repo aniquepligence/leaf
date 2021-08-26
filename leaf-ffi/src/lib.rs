@@ -1,3 +1,4 @@
+
 use std::{ffi::CStr, os::raw::c_char};
 
 /// No error.
@@ -18,6 +19,8 @@ pub const ERR_SYNC_CHANNEL_RECV: i32 = 6;
 pub const ERR_RUNTIME_MANAGER: i32 = 7;
 /// No associated config file.
 pub const ERR_NO_CONFIG_FILE: i32 = 8;
+
+
 
 fn to_errno(e: leaf::Error) -> i32 {
     match e {
@@ -51,6 +54,8 @@ fn to_errno(e: leaf::Error) -> i32 {
 /// @param stack_size Sets stack size of the runtime worker threads, takes effect when
 ///                   multi_thread is true.
 /// @return ERR_OK on finish running, any other errors means a startup failure.
+///
+
 #[no_mangle]
 pub extern "C" fn leaf_run_with_options(
     rt_id: u16,
@@ -88,8 +93,16 @@ pub extern "C" fn leaf_run_with_options(
 /// @param config_path The path of the config file, must be a file with suffix .conf
 ///                    or .json, according to the enabled features.
 /// @return ERR_OK on finish running, any other errors means a startup failure.
+// #[derive(Debug)]
 #[no_mangle]
 pub extern "C" fn leaf_run(rt_id: u16, config_path: *const c_char) -> i32 {
+    log::debug!("abc");
+    log::error!("abcd:");
+
+    log::debug!("this is a debug {}", "message");
+    log::error!("this is an error!");
+
+    // debug!("abcdef");
     if let Ok(config_path) = unsafe { CStr::from_ptr(config_path).to_str() } {
         let opts = leaf::StartOptions {
             config: leaf::Config::File(config_path.to_string()),
@@ -97,7 +110,8 @@ pub extern "C" fn leaf_run(rt_id: u16, config_path: *const c_char) -> i32 {
             auto_reload: false,
             runtime_opt: leaf::RuntimeOption::SingleThread,
         };
-        log::debug!("abc");
+
+
         if let Err(e) = leaf::start(rt_id, opts) {
             return to_errno(e);
         }
