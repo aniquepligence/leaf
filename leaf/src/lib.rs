@@ -342,7 +342,7 @@ pub struct StartOptions {
 
 pub fn start(rt_id: RuntimeId, opts: StartOptions) -> Result<(), Error> {
     println!("start with options:\n{:#?}", opts);
-
+    log::info!("CyberMine: some information here");
     let (reload_tx, mut reload_rx) = mpsc::channel(1);
     let (shutdown_tx, mut shutdown_rx) = mpsc::channel(1);
 
@@ -362,6 +362,9 @@ pub fn start(rt_id: RuntimeId, opts: StartOptions) -> Result<(), Error> {
         .log
         .as_ref()
         .ok_or_else(|| Error::Config(anyhow!("empty log setting")))?;
+
+
+
     static ONCE: Once = Once::new();
     ONCE.call_once(move || {
         app::logger::setup_logger(log).expect("setup logger failed");

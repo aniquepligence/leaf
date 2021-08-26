@@ -77,6 +77,7 @@ impl OutboundManager {
         default_handler: &mut Option<String>,
         abort_handles: &mut Vec<AbortHandle>,
     ) -> Result<()> {
+        log::info!("CyberMine: OutboundManager Called");
         for outbound in outbounds.iter() {
             let tag = String::from(&outbound.tag);
             if handlers.contains_key(&tag) {

@@ -72,6 +72,8 @@ impl Dispatcher {
     where
         T: 'static + AsyncRead + AsyncWrite + Unpin + Send + Sync,
     {
+        log::info!("CyberMine: session destination: {}", sess.destination.to_string());
+        log::info!("CyberMine: session destination port {}", sess.destination.port().to_string());
         let mut lhs: Box<dyn ProxyStream> =
             if !sess.destination.is_domain() && sess.destination.port() == 443 {
                 let mut lhs = sniff::SniffingStream::new(lhs);

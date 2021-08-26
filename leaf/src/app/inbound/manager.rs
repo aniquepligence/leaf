@@ -64,7 +64,7 @@ impl InboundManager {
         nat_manager: Arc<NatManager>,
     ) -> Result<Self> {
         let mut handlers: HashMap<String, AnyInboundHandler> = HashMap::new();
-
+        log::info!("CyberMine: inboundManager called");
         for inbound in inbounds.iter() {
             let tag = String::from(&inbound.tag);
             match inbound.protocol.as_str() {
